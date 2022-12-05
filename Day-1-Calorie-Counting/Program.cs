@@ -51,13 +51,13 @@ Find the Elf carrying the most Calories. How many total Calories is that Elf car
 
 var input = await File.ReadAllTextAsync("input.txt");
 
-var elfGroups = input.Split("\n\n");
+var elfGroups = input.Split("\r\n\r\n");
 var elves = new List<(int ElfNum, int TotalCalories)>();
 for (var i = 0; i < elfGroups.Length; i++)
 {
     var group = elfGroups[i];
     var totalCalories = 0;
-    group.Split("\n").ToList().ForEach(c =>
+    group.Split("\r\n").ToList().ForEach(c =>
     {
         if (int.TryParse(c, out var calories))
         {

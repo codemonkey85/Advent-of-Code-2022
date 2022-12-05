@@ -9,13 +9,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="input.txt" />
+		<None Remove="input.txt" />
+		<None Remove="test-input.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="input.txt">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="input.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="test-input.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

@@ -62,7 +62,6 @@ const string X = nameof(X); // rock, lose
 const string Y = nameof(Y); // paper, draw
 const string Z = nameof(Z); // scissors, win
 
-var testInput = await File.ReadAllTextAsync("test-input.txt");
 var puzzleInput = await File.ReadAllTextAsync("input.txt");
 
 Console.WriteLine("Part One");
@@ -70,7 +69,7 @@ GetYourTotalScore(puzzleInput);
 
 void GetYourTotalScore(string input)
 {
-    var lines = input.Split("\n");
+    var lines = input.Split("\r\n");
     var playerRounds = (
         from line in lines
         select line.Split(" ")
@@ -108,7 +107,7 @@ GetYourTotalScorePart2(puzzleInput);
 
 void GetYourTotalScorePart2(string input)
 {
-    var lines = input.Split("\n");
+    var lines = input.Split("\r\n");
     var playerRounds = (
         from line in lines
         select line.Split(" ")
@@ -170,7 +169,7 @@ static (IChoice P1Choice, IChoice P2Choice) GetChoicePart2(string p1ChoiceString
 
 internal interface IChoice
 {
-    int Points { get; init; }
+    int Points { get; }
 }
 
 internal record Rock(int Points = 1) : IChoice;
@@ -179,7 +178,7 @@ internal record Paper(int Points = 2) : IChoice;
 
 internal record Scissors(int Points = 3) : IChoice;
 
-internal record RoundResult(IChoice P1Choice, int P1Points, IChoice P2Choice, int P2Points);
+internal record RoundResult(int P2Points);
 
 internal record PlayerRound(IChoice P1, IChoice P2)
 {
@@ -191,23 +190,23 @@ internal record PlayerRound(IChoice P1, IChoice P2)
     {
         Rock => P2 switch
         {
-            Rock => new RoundResult(P1, P1.Points + Draw, P2, P2.Points + Draw),
-            Paper => new RoundResult(P1, P1.Points + Loser, P2, P2.Points + Winner),
-            Scissors => new RoundResult(P1, P1.Points + Winner, P2, P2.Points + Loser),
+            Rock => new RoundResult(P2.Points + Draw),
+            Paper => new RoundResult(P2.Points + Winner),
+            Scissors => new RoundResult(P2.Points + Loser),
             _ => throw new ArgumentOutOfRangeException()
         },
         Paper => P2 switch
         {
-            Rock => new RoundResult(P1, P1.Points + Winner, P2, P2.Points + Loser),
-            Paper => new RoundResult(P1, P1.Points + Draw, P2, P2.Points + Draw),
-            Scissors => new RoundResult(P1, P1.Points + Loser, P2, P2.Points + Winner),
+            Rock => new RoundResult(P2.Points + Loser),
+            Paper => new RoundResult(P2.Points + Draw),
+            Scissors => new RoundResult(P2.Points + Winner),
             _ => throw new ArgumentOutOfRangeException()
         },
         Scissors => P2 switch
         {
-            Rock => new RoundResult(P1, P1.Points + Loser, P2, P2.Points + Winner),
-            Paper => new RoundResult(P1, P1.Points + Winner, P2, P2.Points + Loser),
-            Scissors => new RoundResult(P1, P1.Points + Draw, P2, P2.Points + Draw),
+            Rock => new RoundResult(P2.Points + Winner),
+            Paper => new RoundResult(P2.Points + Loser),
+            Scissors => new RoundResult(P2.Points + Draw),
             _ => throw new ArgumentOutOfRangeException()
         },
         _ => throw new ArgumentOutOfRangeException(),
