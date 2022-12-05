@@ -67,7 +67,7 @@ rucksack. What is the sum of the priorities of those item types?
  */
 
 var puzzleInput = await File.ReadAllTextAsync("input.txt");
-var lines = puzzleInput.Split("\n");
+var lines = puzzleInput.Split("\r\n");
 
 var commonChars = (
     from line in lines
